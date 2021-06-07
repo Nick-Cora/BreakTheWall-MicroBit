@@ -1,5 +1,12 @@
 import sys, pygame, random
 
+
+GAME_OVER = pygame.image.load('gameOver.png')
+GAME_OVER = pygame.transform.scale(GAME_OVER,(350, 350))
+WIN = pygame.image.load('vittoria.png')
+WIN = pygame.transform.scale(WIN ,(380, 327))
+
+
 class Breakout():
    
     def main(self):
@@ -78,13 +85,15 @@ class Breakout():
                 if random.random() > 0.5:
                     xspeed = -xspeed           
                 ballrect.center = width * random.random(), height / 3        #centro della palla                        
-                if lives == 0:     #se vite == 0              
-                    msg = pygame.font.Font(None,70).render("Game Over", True, (0,255,255), bgcolour)       #messaggio a fine gioco
-                    msgrect = msg.get_rect()
-                    msgrect = msgrect.move(width / 2 - (msgrect.center[0]), height / 3)
-                    screen.blit(msg, msgrect)
-                    pygame.display.flip()
+                if lives == 0:     #se vite == 0
 
+                    screen.fill(bgcolour)
+                    screen.blit(GAME_OVER, (145, 50))
+                    fnt_score = pygame.font.SysFont("Forte", 40)
+                    surf_txt_score = fnt_score.render("Score: " + str(score), True, (0,255,255))
+                    screen.blit(surf_txt_score, (260, 420))
+                    pygame.display.flip()
+                          
 
                     while True:
                         for event in pygame.event.get():
@@ -134,10 +143,14 @@ class Breakout():
             for i in range(0, len(wall.brickrect)):
                 screen.blit(wall.brick, wall.brickrect[i])    
 
-            # if wall completely gone then rebuild it
+            #se il muro è vuoto si vince
             if wall.brickrect == []:              
-                wall.build_wall(width)    #ricostruzione muro                           
-                ballrect.center = width / 2, height / 3     
+                screen.fill(bgcolour)
+                screen.blit(WIN, (130, 50))
+                fnt_score = pygame.font.SysFont("Forte", 40)
+                surf_txt_score = fnt_score.render("Score: " + str(score), True, (0,255,255))
+                screen.blit(surf_txt_score, (260, 390))
+                pygame.display.flip()   
          
             screen.blit(ball, ballrect)
             screen.blit(bat, batrect)
