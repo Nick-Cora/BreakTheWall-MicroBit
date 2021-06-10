@@ -179,7 +179,7 @@ def main():
         
         index = ballrect.collidelist(wall.brickrect)       #controllo collisione con mattone
         if index != -1: 
-            print(abs(xspeed))
+
             if score == 100:
                 xspeed = abs(xspeed) + 0.5
                 yspeed = abs(yspeed) + 0.5
